@@ -1,4 +1,4 @@
-# git_helper_pro/ui_menus.py
+
 import os
 import shutil
 from InquirerPy import inquirer
@@ -8,8 +8,6 @@ import state
 import utils
 import config
 
-# ... (_center_text_in_terminal, _get_formatted_message, _get_choices_with_centered_names, display_manage_remote_menu, display_local_repo_menu remain the same) ...
-# Ensure you have the full definitions for those from previous responses.
 def _center_text_in_terminal(text_to_center):
     terminal_width = shutil.get_terminal_size((80, 20)).columns
     return text_to_center.center(terminal_width)
@@ -87,7 +85,7 @@ def display_local_repo_menu():
         ).execute()
         utils.clear_screen()
         if action == "status": git_actions.view_status()
-        elif action == "modify": git_actions.modify_file() # This is the wrapper
+        elif action == "modify": git_actions.modify_file()
         elif action == "stage": git_actions.stage_changes()
         elif action == "commit": git_actions.commit_changes()
         elif action == "push": git_actions.push_changes()
@@ -103,13 +101,13 @@ def display_main_menu():
     while True:
         utils.clear_screen()
         current_repo_info = f"(Active: {state.current_repo_path})" if state.current_repo_path else "(No active repo)"
-        base_message = f"Git Helper Pro {current_repo_info} - Main Menu:"
+        base_message = f"EasyGit {current_repo_info} - Main Menu:"
         message_prompt = _get_formatted_message(base_message)
 
         choices_definition = [
             ("auth_github", "🔑 Authenticate GitHub Account"),
-            ("create_new_empty_remote", "☁️ Create New Empty GitHub Repo (and clone)"), # Renamed for clarity
-            ("push_existing_project", "🚀 Push Existing Local Project to New GitHub Repo"), # New Option
+            ("create_new_empty_remote", "☁️ Create New Empty GitHub Repo (and clone)"),
+            ("push_existing_project", "🚀 Push Existing Local Project to New GitHub Repo"),
             ("work_local", "💻 Work with Existing Local Repository"),
             ("manage_remote", "🛠️ Manage Remote GitHub Repositories"),
             (None, "🚪 Exit"),
@@ -127,8 +125,8 @@ def display_main_menu():
         utils.clear_screen()
 
         if action == "auth_github": git_actions.authenticate_github_account()
-        elif action == "create_new_empty_remote": git_actions.create_github_repository() # This function already handles empty repo creation
-        elif action == "push_existing_project": # Handle new option
+        elif action == "create_new_empty_remote": git_actions.create_github_repository()
+        elif action == "push_existing_project":
             git_actions.push_existing_project_to_new_repo()
         elif action == "work_local":
             if not state.current_repo_path:

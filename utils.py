@@ -1,10 +1,8 @@
-# git_helper_pro/utils.py
 import os
 import subprocess
 import platform
-import shutil # For getting terminal width
-# from . import config # Use relative import if part of a package
-import config # Assuming direct run from the directory for simplicity
+import shutil
+import config
 
 def run_command(command_list, cwd=None, capture_output=False, text=True, check=False, env=None):
     """Runs a shell command."""
@@ -12,9 +10,6 @@ def run_command(command_list, cwd=None, capture_output=False, text=True, check=F
     if env:
         effective_env.update(env)
 
-    # Only print if not capturing output, or if it's a sensitive command
-    # This avoids cluttering when output is processed internally.
-    # For commands like 'gh auth login', we want to see the execution message.
     if not capture_output or command_list[0] == config.GH_COMMAND and "auth" in command_list :
         print(f"⚙️ Executing: {' '.join(command_list)}" + (f" in {cwd}" if cwd else ""))
     
@@ -24,7 +19,7 @@ def run_command(command_list, cwd=None, capture_output=False, text=True, check=F
             cwd=cwd,
             capture_output=capture_output,
             text=text,
-            check=check, # If True, will raise CalledProcessError on non-zero exit
+            check=check,
             env=effective_env
         )
         if capture_output:
@@ -99,13 +94,11 @@ def clear_screen():
     """Clears the terminal screen."""
     if not config.CLEAR_SCREEN_BETWEEN_MENUS:
         return
-    if os.name == 'nt': # For Windows
+    if os.name == 'nt':
         _ = os.system('cls')
-    else: # For macOS and Linux
+    else:
         _ = os.system('clear')
 
-# This function is not directly used by InquirerPy message prompts anymore,
-# but kept for potential future use with static text.
 def format_menu_text(text_lines, title=""):
     """
     Formats menu text lines, optionally centering them based on config.CENTER_MENUS.
@@ -130,7 +123,6 @@ def format_menu_text(text_lines, title=""):
             output_lines.append(line)
     return output_lines
 
-# This function is also not directly used by InquirerPy message prompts.
 def print_formatted_menu(text_lines, title=""):
     """Clears screen (if configured) and prints formatted menu text."""
     clear_screen()
@@ -150,7 +142,7 @@ def view_file_content_in_terminal(filepath, max_lines=50):
                 if line_count >= max_lines:
                     print(f"... (and more - output truncated at {max_lines} lines)")
                     break
-                print(line, end='') # end='' to avoid double newlines
+                print(line, end='')
                 line_count += 1
             if line_count == 0:
                 print("(File is empty)")
@@ -158,4 +150,4 @@ def view_file_content_in_terminal(filepath, max_lines=50):
         print(f"❌ Error: File '{filepath}' not found.")
     except Exception as e:
         print(f"❌ Error reading file '{filepath}': {e}")
-    print("\n" + "-" * 40) # Separator
+    print("\n" + "-" * 40)

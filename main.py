@@ -21,7 +21,7 @@ except ImportError:
 def initialize_app():
     """Perform initial checks and setup."""
     utils.clear_screen()
-    print("🚀 Welcome to Git Helper Pro! 🚀")
+    print("🚀 Welcome to EasyGit! 🚀")
     print("-" * 40) # Wider separator
     
     if not utils.check_git_installed(): # This function prints its own messages
